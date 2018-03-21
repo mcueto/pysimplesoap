@@ -137,7 +137,12 @@ class SoapClient(object):
 
         # Create HTTP wrapper
         Http = get_Http()
-        self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
+        self.http = Http(
+            timeout=timeout,
+            cacert=cacert,
+            proxy=proxy,
+            sessions=sessions
+        )
         if username and password:
             if hasattr(self.http, 'add_credentials'):
                 self.http.add_credentials(username, password)
