@@ -264,8 +264,8 @@ class SoapClient(object):
                 if self.services is not None:
                     operation = self.get_operation(method)
                     fault_name = detailXml.children()[0].get_name()
-                    # if fault not defined in WSDL, it could be an axis or other 
-                    # standard type (i.e. "hostname"), try to convert it to string 
+                    # if fault not defined in WSDL, it could be an axis or other
+                    # standard type (i.e. "hostname"), try to convert it to string
                     fault = operation['faults'].get(fault_name) or unicode
                     detail = detailXml.children()[0].unmarshall(fault, strict=False)
                 else:
@@ -283,7 +283,7 @@ class SoapClient(object):
         return response
 
     def send(self, method, xml):
-        """Send SOAP request using HTTP"""
+        """Send SOAP request using HTTP."""
         if self.location == 'test': return
         # location = '%s' % self.location #?op=%s" % (self.location, method)
         http_method = str('POST')
@@ -315,7 +315,11 @@ class SoapClient(object):
             headers = dict((str(k), str(v)) for k, v in headers.items())
 
         response, content = self.http.request(
-            location, http_method, body=xml, headers=headers)
+            location,
+            http_method,
+            body=str(xml).encode('utf-8'),
+            headers=headers
+        )
         self.response = response
         self.content = content
 
@@ -818,7 +822,7 @@ class SoapClient(object):
         # create an default service if none is given in the wsdl:
         if not services:
             services[''] = {'ports': {'': None}}
-   
+
         elements = list(e for e in elements.values() if type(e) is type) + sorted(e for e in elements.values() if not(type(e) is type))
         e = None
         self.elements = []
