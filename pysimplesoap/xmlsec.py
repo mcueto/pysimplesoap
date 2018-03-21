@@ -117,7 +117,9 @@ def canonicalize(xml, c14n_exc=True):
 
 def sha1_hash_digest(payload):
     "Create a SHA1 hash and return the base64 string"
-    return base64.b64encode(hashlib.sha1(payload).digest())
+    return base64.b64encode(
+        hashlib.sha1(payload.encode('utf-8')).digest()
+    )
 
 
 def rsa_sign(xml, ref_uri, private_key, password=None, cert=None, c14n_exc=True,
